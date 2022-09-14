@@ -45,16 +45,14 @@ public class TurbinatorMeasurement implements Serializable, Comparable<Turbinato
     private ObservedIdentifier primaryKey;
     private Integer turbidity;
     private Double waterLevel;
-    private Integer batteryLevel;
 
     public TurbinatorMeasurement() {
     }
 
-    public TurbinatorMeasurement(String entityId, ZonedDateTime recordingTimestamp, Integer turbidity, Double waterLevel, Integer batteryLevel) {
+    public TurbinatorMeasurement(String entityId, ZonedDateTime recordingTimestamp, Integer turbidity, Double waterLevel) {
         this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
         this.turbidity = turbidity;
         this.waterLevel = waterLevel;
-        this.batteryLevel = batteryLevel;
     }
 
     public ObservedIdentifier getPrimaryKey() {
@@ -81,13 +79,6 @@ public class TurbinatorMeasurement implements Serializable, Comparable<Turbinato
         this.waterLevel = waterLevel;
     }
 
-    public Double getBatteryLevel() {
-        return batteryLevel;
-    }
-
-    public void setBatteryLevel(Integer batteryLevel) {
-        this.batteryLevel = batteryLevel;
-    }
     @Override
     public int compareTo(TurbinatorMeasurement that) {
         return this.getPrimaryKey().compareTo(that.getPrimaryKey());

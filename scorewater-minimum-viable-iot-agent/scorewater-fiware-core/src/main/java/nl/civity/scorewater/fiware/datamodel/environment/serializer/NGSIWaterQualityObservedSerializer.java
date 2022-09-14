@@ -26,42 +26,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package nl.civity.fiware.scorewater.turbinator.domain.json;
+package nl.civity.scorewater.fiware.datamodel.environment.serializer;
 
-import java.time.ZonedDateTime;
-import java.util.Set;
-import java.util.TreeSet;
-import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import nl.civity.scorewater.fiware.datamodel.environment.WaterQualityObserved;
+import nl.civity.scorewater.fiware.serializer.MandatorySerializer;
+import nl.civity.scorewater.fiware.serializer.OptionalSerializer;
+import nl.civity.scorewater.fiware.serializer.ngsi.NGSIMandatorySerializer;
+import nl.civity.scorewater.fiware.serializer.ngsi.NGSIOptionalSerializer;
 
-/**
- *
- * @author basvanmeulebrouk
- */
-public class TurbinatorMeasurementJson {
+public class NGSIWaterQualityObservedSerializer extends WaterQualityObservedSerializer {
     
-    public static Set<TurbinatorMeasurement> fromJsonString(String data) {
-        JSONObject jsonObject = new JSONObject(data);
-        return fromJsonObject(jsonObject);
+    public NGSIWaterQualityObservedSerializer(Class<WaterQualityObserved> t) {
+        super(t);
     }
-    
-    public static Set<TurbinatorMeasurement> fromJsonObject(JSONObject jsonObject) {
-        Set<TurbinatorMeasurement> result = new TreeSet<>();
-        
-        String entityId = jsonObject.getString("id");
-        
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
-        }
-        
-        return result;
+
+    @Override
+    protected MandatorySerializer createMandatorySerializer() {
+        return new NGSIMandatorySerializer();
+    }
+
+    @Override
+    protected OptionalSerializer createOptionalSerializer() {
+        return new NGSIOptionalSerializer();
     }
 }

@@ -81,7 +81,7 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
         this.lat = lat;
     }
 
-    public Double getBatlvl() {
+    public Integer getBatlvl() {
         return batlvl;
     }
 

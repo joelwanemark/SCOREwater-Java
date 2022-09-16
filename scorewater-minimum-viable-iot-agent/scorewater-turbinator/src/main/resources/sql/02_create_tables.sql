@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS turbinator_measurement_wipawoik (
     recording_timestamp TIMESTAMP,
     turbidity INTEGER,
     water_level FLOAT,
-    battery_level INTEGER
+    errorf INTEGER
 );
 
 ALTER TABLE turbinator_measurement_wipawoik ADD CONSTRAINT pk_turbinator_measurement_wipawoik PRIMARY KEY(entity_id, recording_timestamp);
@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS turbinator_location_wipawoik (
     entity_id VARCHAR(256),
     recording_timestamp TIMESTAMP,
     lon FLOAT,
-    lat FLOAT
+    lat FLOAT,
+    batlvl INTEGER
 );
 
 ALTER TABLE turbinator_location_wipawoik ADD CONSTRAINT pk_turbinator_location_wipawoik PRIMARY KEY(entity_id, recording_timestamp);

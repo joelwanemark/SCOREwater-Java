@@ -45,14 +45,16 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
     private ObservedIdentifier primaryKey;
     Double lon;
     Double lat;
+    Integer batlvl;
 
     public TurbinatorLocation() {
     }
 
-    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double lon, Double lat) {
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double lon, Double lat, Integer batlvl) {
         this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
         this.lon = lon;
         this.lat = lat;
+        this.batlvl = batlvl;
     }
 
     public ObservedIdentifier getPrimaryKey() {
@@ -77,6 +79,14 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
 
     public void setLat(Double lat) {
         this.lat = lat;
+    }
+
+    public Double getBatlvl() {
+        return batlvl;
+    }
+
+    public void setBatlvl(Integer batlvl) {
+        this.batlvl = batlvl;
     }
 
     @Override

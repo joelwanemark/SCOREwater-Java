@@ -71,7 +71,8 @@ public class TurbinatorLocationJson {
                 result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), batlvl));
 
                 break;
-
+            }
+        } else {
         }
         
         return result;

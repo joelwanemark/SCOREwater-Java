@@ -54,7 +54,7 @@ public class TurbinatorLocationJson {
                 String entityId = jsonObject.getString("id");
                 Double lon = jsonObject.getDouble("lon");
                 Double lat = jsonObject.getDouble("lat");
-                if (jsonObject.has("batlvl"){
+                if (jsonObject.has("batlvl")){
                     Integer batlvl = jsonObject.getInt("batlvl");
                     // Assuming the first measurement in the list contains the correct timestamp
                     result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), lon, lat, batlvl));

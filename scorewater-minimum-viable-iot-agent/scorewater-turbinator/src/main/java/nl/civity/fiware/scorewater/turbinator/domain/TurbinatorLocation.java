@@ -57,6 +57,11 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
         this.batlvl = batlvl;
     }
 
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Integer batlvl) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.batlvl = batlvl;
+    }
+
     public ObservedIdentifier getPrimaryKey() {
         return primaryKey;
     }

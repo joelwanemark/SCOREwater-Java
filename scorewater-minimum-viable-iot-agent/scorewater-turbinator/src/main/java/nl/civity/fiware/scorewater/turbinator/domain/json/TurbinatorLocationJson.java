@@ -61,6 +61,17 @@ public class TurbinatorLocationJson {
                 
                 break;
             }
+        } else if (jsonObject.has("batlvl")){
+            Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
+            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
+                String entityId = jsonObject.getString("id");
+                Integer batlvl = jsonObject.getInt("batlvl");
+
+                // Assuming the first measurement in the list contains the correct timestamp
+                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), batlvl));
+
+                break;
+
         }
         
         return result;

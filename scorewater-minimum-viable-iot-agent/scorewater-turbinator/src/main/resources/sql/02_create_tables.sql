@@ -19,6 +19,7 @@ ALTER TABLE turbinator_measurement_wipawoik OWNER TO turbinator;
 CREATE TABLE IF NOT EXISTS turbinator_location_wipawoik (
     entity_id VARCHAR(256),
     recording_timestamp TIMESTAMP,
+    firmware DOUBLE,
     lon FLOAT,
     lat FLOAT,
     batlvl INTEGER

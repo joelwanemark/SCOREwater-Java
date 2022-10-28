@@ -45,14 +45,37 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
     private ObservedIdentifier primaryKey;
     Double lon;
     Double lat;
+    Integer batlvl;
+    Double fw;
 
     public TurbinatorLocation() {
     }
 
-    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double lon, Double lat) {
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double fw, Double lon, Double lat, Integer batlvl) {
         this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.fw = fw;
         this.lon = lon;
         this.lat = lat;
+        this.batlvl = batlvl;
+    }
+
+
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double fw, Double lon, Double lat) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.fw = fw;
+        this.lon = lon;
+        this.lat = lat;
+    }
+
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double fw, Integer batlvl) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.fw = fw;
+        this.batlvl = batlvl;
+    }
+
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double fw) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.fw = fw;
     }
 
     public ObservedIdentifier getPrimaryKey() {
@@ -77,6 +100,22 @@ public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLo
 
     public void setLat(Double lat) {
         this.lat = lat;
+    }
+
+    public Integer getBatlvl() {
+        return batlvl;
+    }
+
+    public void setBatlvl(Integer batlvl) {
+        this.batlvl = batlvl;
+    }
+
+    public Double getFw() {
+        return fw;
+    }
+
+    public void setFw(Double fw) {
+        this.fw = fw;
     }
 
     @Override

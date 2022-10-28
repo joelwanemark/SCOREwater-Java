@@ -52,14 +52,33 @@ public class TurbinatorLocationJson {
             Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
             for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
                 String entityId = jsonObject.getString("id");
+                Double fw = jsonObject.getDouble("FW");
                 Double lon = jsonObject.getDouble("lon");
                 Double lat = jsonObject.getDouble("lat");
-                
-                // Assuming the first measurement in the list contains the correct timestamp
-                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), lon, lat));
-                
+                if (jsonObject.has("batlvl")){
+                    Integer batlvl = jsonObject.getInt("batlvl");
+                    // Assuming the first measurement in the list contains the correct timestamp
+                    result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat, batlvl));
+                } else {
+                    // Assuming the first measurement in the list contains the correct timestamp
+                    result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat));
+                }
+
                 break;
             }
+        } else if (jsonObject.has("batlvl")){
+            Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
+            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
+                String entityId = jsonObject.getString("id");
+                Double fw = jsonObject.getDouble("FW");
+                Integer batlvl = jsonObject.getInt("batlvl");
+
+                // Assuming the first measurement in the list contains the correct timestamp
+                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, batlvl));
+
+                break;
+            }
+        } else {
         }
         
         return result;

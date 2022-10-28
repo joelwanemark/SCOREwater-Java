@@ -58,8 +58,9 @@ public class TurbinatorMeasurementJson {
             ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
             Integer turbidity = valueJsonObject.getInt("turb");
             Double waterLevel = valueJsonObject.getDouble("WL");
+            Integer errorf = valueJsonObject.getInt("Error");
             
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
+            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel, errorf));
         }
         
         return result;

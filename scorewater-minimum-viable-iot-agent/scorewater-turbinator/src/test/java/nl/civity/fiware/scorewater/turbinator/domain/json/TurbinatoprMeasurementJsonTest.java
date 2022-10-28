@@ -42,6 +42,7 @@ public class TurbinatoprMeasurementJsonTest {
             assertEquals("urn:uuid:77a90d86-2678-11ec-9621-0242ac130002", measurement.getPrimaryKey().getEntityId());
             assertEquals(26, measurement.getTurbidity());
             assertEquals(98.0, measurement.getWaterLevel(), 1);
+            assertEquals(65, measurement.getErrorf());
             break;
         }
     }

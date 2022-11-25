@@ -54,36 +54,25 @@ public class TurbinatorLocationJson {
                 boolean update_pos = true;
                 String entityId = jsonObject.getString("id");
                 Double fw = jsonObject.getDouble("FW");
-                try {
-                    Double lon = jsonObject.getDouble("lon");
-                    Double lat = jsonObject.getDouble("lat");
-                } catch (org.json.JSONException e) {
-                    // TODO: handle exception
-                    update_pos = false;
-                    Double lon = 0.0;
-                    Double lat = 0.0;
-                }
-                if (update_pos){
-                    if (jsonObject.has("batlvl")){
-                        Integer batlvl = jsonObject.getInt("batlvl");
-                        // Assuming the first measurement in the list contains the correct timestamp
+                
+                if (jsonObject.has("batlvl")){
+                    Integer batlvl = jsonObject.getInt("batlvl");
+                    try {
+                        Double lon = jsonObject.getDouble("lon");
+                        Double lat = jsonObject.getDouble("lat");
                         result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat, batlvl));
-                    } else {
-                        // Assuming the first measurement in the list contains the correct timestamp
-                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat));
-                    }
-
-                } else {
-                    if (jsonObject.has("batlvl")){
-                        Integer batlvl = jsonObject.getInt("batlvl");
-                        // Assuming the first measurement in the list contains the correct timestamp
+                    } catch (org.json.JSONException e) {
                         result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, batlvl));
-                    } else {
-                        // Assuming the first measurement in the list contains the correct timestamp
+                    }                    
+                } else {
+                    try {
+                        Double lon = jsonObject.getDouble("lon");
+                        Double lat = jsonObject.getDouble("lat");
+                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat));
+                    } catch (org.json.JSONException e) {
                         result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw));
                     }
-                }                
-
+                }          
                 break;
             }
         } else if (jsonObject.has("batlvl")){

@@ -56,7 +56,7 @@ public class TurbinatorLocationJson {
                 Double fw = jsonObject.getDouble("FW");
                 try {
                     Double lon = jsonObject.getDouble("lon");
-                    Double lat = jsonObject.getDouble("lat")
+                    Double lat = jsonObject.getDouble("lat");
                 } catch (org.json.JSONException e) {
                     // TODO: handle exception
                     update_pos = false;

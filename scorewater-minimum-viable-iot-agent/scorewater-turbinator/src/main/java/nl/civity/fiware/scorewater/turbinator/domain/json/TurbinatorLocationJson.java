@@ -54,14 +54,14 @@ public class TurbinatorLocationJson {
                 boolean update_pos = true;
                 String entityId = jsonObject.getString("id");
                 Double fw = jsonObject.getDouble("FW");
-                Double lon;
-                Double lat;
                 try {
                     Double lon = jsonObject.getDouble("lon");
                     Double lat = jsonObject.getDouble("lat");
                 } catch (org.json.JSONException e) {
                     // TODO: handle exception
                     update_pos = false;
+                    Double lon = 0.0;
+                    Double lat = 0.0;
                 }
                 if (update_pos){
                     if (jsonObject.has("batlvl")){

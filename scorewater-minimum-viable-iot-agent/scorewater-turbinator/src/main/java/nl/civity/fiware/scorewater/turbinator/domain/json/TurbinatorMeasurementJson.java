@@ -51,17 +51,19 @@ public class TurbinatorMeasurementJson {
         
         String entityId = jsonObject.getString("id");
         
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            Integer errorf = valueJsonObject.getInt("Error");
+        if (jsonObject.has("values")) {
+            JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
             
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel, errorf));
-        }
+            for (int i = 0; i < valuesJsonArray.length(); i ++) {
+                JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
+                ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
+                Integer turbidity = valueJsonObject.getInt("turb");
+                Double waterLevel = valueJsonObject.getDouble("WL");
+                Integer errorf = valueJsonObject.getInt("Error");
+                
+                result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel, errorf));
+            }
+        } 
         
         return result;
     }

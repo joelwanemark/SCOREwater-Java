@@ -63,9 +63,7 @@ public class TurbinatorMeasurementJson {
                 
                 result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel, errorf));
             }
-        } else {
-            result.add(new TurbinatorMeasurement(entityId));
-        }
+        } 
         
         return result;
     }

@@ -57,6 +57,10 @@ public class TurbinatorMeasurement implements Serializable, Comparable<Turbinato
         this.errorf = errorf;
     }
 
+    public TurbinatorMeasurement(String entityId) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+    }
+
     public ObservedIdentifier getPrimaryKey() {
         return primaryKey;
     }

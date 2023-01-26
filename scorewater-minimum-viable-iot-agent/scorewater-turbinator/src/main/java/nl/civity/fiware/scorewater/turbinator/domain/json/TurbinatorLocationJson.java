@@ -30,6 +30,9 @@ package nl.civity.fiware.scorewater.turbinator.domain.json;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorLocation;
 import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
 import org.json.JSONObject;
@@ -47,56 +50,61 @@ public class TurbinatorLocationJson {
     
     public static Set<TurbinatorLocation> fromJsonObject(JSONObject jsonObject) {
         Set<TurbinatorLocation> result = new TreeSet<>();
-        
-        if (jsonObject.has("lon") && jsonObject.has("lat")) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
+        String formattedString = ZonedDateTime.now().format(formatter);
+        ZonedDateTime recordingTimestamp = ZonedDateTime.parse(formattedString, formatter);
+        System.out.print(recordingTimestamp);
+
+        if (jsonObject.has("values")){
             Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
             for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
-                boolean update_pos = true;
-                String entityId = jsonObject.getString("id");
-                Double fw = jsonObject.getDouble("FW");
-                
-                if (jsonObject.has("batlvl")){
-                    Integer batlvl = jsonObject.getInt("batlvl");
-                    try {
-                        Double lon = jsonObject.getDouble("lon");
-                        Double lat = jsonObject.getDouble("lat");
-                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat, batlvl));
-                    } catch (org.json.JSONException e) {
-                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, batlvl));
-                    }                    
-                } else {
-                    try {
-                        Double lon = jsonObject.getDouble("lon");
-                        Double lat = jsonObject.getDouble("lat");
-                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, lon, lat));
-                    } catch (org.json.JSONException e) {
-                        result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw));
-                    }
-                }          
+                recordingTimestamp = turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp();
                 break;
+            }
+        } else if ((jsonObject.has("DT"))){
+            recordingTimestamp = ZonedDateTime.parse(jsonObject.getString("DT"));
+        } else{
+        }
+
+        if (jsonObject.has("lon") && jsonObject.has("lat")) {
+            
+            String entityId = jsonObject.getString("id");
+            Double fw = jsonObject.getDouble("FW");
+            if (jsonObject.has("batlvl")){
+                Integer batlvl = jsonObject.getInt("batlvl");
+                try {
+                    Double lon = jsonObject.getDouble("lon");
+                    Double lat = jsonObject.getDouble("lat");
+                    result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw, lon, lat, batlvl));
+                } catch (org.json.JSONException e) {
+                    result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw, batlvl));
+                }                    
+            } else {
+                try {
+                    Double lon = jsonObject.getDouble("lon");
+                    Double lat = jsonObject.getDouble("lat");
+                    result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw, lon, lat));
+                } catch (org.json.JSONException e) {
+                    result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw));
+                }
+
             }
         } else if (jsonObject.has("batlvl")){
-            Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
-            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
-                String entityId = jsonObject.getString("id");
-                Double fw = jsonObject.getDouble("FW");
-                Integer batlvl = jsonObject.getInt("batlvl");
 
-                // Assuming the first measurement in the list contains the correct timestamp
-                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw, batlvl));
+            String entityId = jsonObject.getString("id");
+            Double fw = jsonObject.getDouble("FW");
+            Integer batlvl = jsonObject.getInt("batlvl");
 
-                break;
-            }
+            // Assuming the first measurement in the list contains the correct timestamp
+            result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw, batlvl));
+
         } else {
-            Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
-            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
-                String entityId = jsonObject.getString("id");
-                Double fw = jsonObject.getDouble("FW");
 
-                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), fw));
-            }
-        }
-        
+            String entityId = jsonObject.getString("id");
+            Double fw = jsonObject.getDouble("FW");
+
+            result.add(new TurbinatorLocation(entityId, recordingTimestamp, fw));
+        } 
         return result;
     }
 }

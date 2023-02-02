@@ -90,12 +90,25 @@ public class TurbinatorProcessor extends FiwareProcessor {
         Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonString(data);        
         this.turbinatorMeasurementRepository.saveAll(turbinatorMeasurements);
         
-        for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
-            Optional<WaterQualityObserved> optional = this.waterQualityObservedRepository.findById(turbinatorMeasurement.getPrimaryKey());
-            if (optional.isPresent()) {
-                WaterQualityObserved waterQualityObserved = optional.get();
-                this.publishToContextBroker(waterQualityObserved);
+        if (turbinatorMeasurements != null) {
+            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
+                Optional<WaterQualityObserved> optional = this.waterQualityObservedRepository.findById(turbinatorMeasurement.getPrimaryKey());
+                if (optional.isPresent()) {
+                    WaterQualityObserved waterQualityObserved = optional.get();
+                    this.publishToContextBroker(waterQualityObserved);
+                }
+            }
+        } else {
+            for (TurbinatorLocation turbinatorLocation : turbinatorLocations){
+                Optional<WaterQualityObserved> optional = this.waterQualityObservedRepository.findById(turbinatorLocation.getPrimaryKey());
+                if (optional.isPresent()) {
+                    WaterQualityObserved waterQualityObserved = optional.get();
+                    this.publishToContextBroker(waterQualityObserved);
+                }
             }
         }
+        
+
+
     }
 }

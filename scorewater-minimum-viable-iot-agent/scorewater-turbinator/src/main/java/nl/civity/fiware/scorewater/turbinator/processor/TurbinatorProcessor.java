@@ -102,11 +102,8 @@ public class TurbinatorProcessor extends FiwareProcessor {
             for (TurbinatorLocation turbinatorLocation : turbinatorLocations){
                 Optional<WaterQualityObserved> optional = this.waterQualityObservedRepository.findById(turbinatorLocation.getPrimaryKey());
                 LOGGER.log(Level.INFO, "Trying to publish location data to CB");
-                if (optional.isPresent()) {
-                    LOGGER.log(Level.INFO, "Trying to publish location data to CB - 2");
-                    WaterQualityObserved waterQualityObserved = optional.get();
-                    this.publishToContextBroker(waterQualityObserved);
-                }
+                WaterQualityObserved waterQualityObserved = optional.get();
+                this.publishToContextBroker(waterQualityObserved);
             }
         }
         
